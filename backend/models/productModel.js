@@ -6,7 +6,7 @@ const reviewSchema = mongoose.Schema(
     rating: { type: Number, required: true },
     commnet: { type: String, required: true },
   },
-  { timestamps: ture }
+  { timestamps: true }
 )
 
 const productSchema = mongoose.Schema(
