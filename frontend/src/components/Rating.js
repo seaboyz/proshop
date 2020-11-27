@@ -1,9 +1,10 @@
 import React from 'react'
 
-function Rating({ rating, numberReviews }) {
+function Rating({ rating, numberReviews, color }) {
     return (
         <div className='rating'>
             <i
+                style={{ color }}
                 className={
                     rating >= 1
                         ? 'fas fa-star'
@@ -51,6 +52,10 @@ function Rating({ rating, numberReviews }) {
             <span>{numberReviews}</span>
         </div>
     )
+}
+
+Rating.defaultProps = {
+    color: '#f8e82f',
 }
 
 export default Rating
