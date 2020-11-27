@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function Rating({ rating, numberReviews, color }) {
+function Rating({ rating, numReviews, color }) {
     return (
         <div className='rating'>
             <i
@@ -14,6 +15,7 @@ function Rating({ rating, numberReviews, color }) {
                 }
             ></i>
             <i
+                style={{ color }}
                 className={
                     rating >= 2
                         ? 'fas fa-star'
@@ -23,6 +25,7 @@ function Rating({ rating, numberReviews, color }) {
                 }
             ></i>
             <i
+                style={{ color }}
                 className={
                     rating >= 3
                         ? 'fas fa-star'
@@ -32,6 +35,7 @@ function Rating({ rating, numberReviews, color }) {
                 }
             ></i>
             <i
+                style={{ color }}
                 className={
                     rating >= 4
                         ? 'fas fa-star'
@@ -41,6 +45,7 @@ function Rating({ rating, numberReviews, color }) {
                 }
             ></i>
             <i
+                style={{ color }}
                 className={
                     rating >= 5
                         ? 'fas fa-star'
@@ -49,13 +54,18 @@ function Rating({ rating, numberReviews, color }) {
                         : 'far fa-star'
                 }
             ></i>
-            <span>{numberReviews}</span>
+            <span>{numReviews}</span>
         </div>
     )
 }
 
 Rating.defaultProps = {
     color: '#f8e82f',
+}
+Rating.propTypes = {
+    rating: PropTypes.number.isRequired,
+    numReviews: PropTypes.string.isRequired,
+    color: PropTypes.string,
 }
 
 export default Rating
