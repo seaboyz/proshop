@@ -20,7 +20,9 @@ function Product({ product }) {
                         numReviews={`${product.numReviews} reviews`}
                     />
                 </Card.Text>
-                <Card.Text as='h3'>${product.price}</Card.Text>
+                <Card.Text style={{ padding: '1rem 0' }} as='h3'>
+                    ${product.price}
+                </Card.Text>
             </Card.Body>
         </Card>
     )
