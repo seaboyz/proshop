@@ -37,6 +37,39 @@ function ProductScreen({ match }) {
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
+                <Col>
+                    <Card>
+                        <ListGroup variant='flush'>
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Price:</Col>
+                                    <Col>{product.price}</Col>
+                                </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Status:</Col>
+                                    <Col>
+                                        {product.countInStock > 0
+                                            ? 'In Stock'
+                                            : 'Out Of Stock'}
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Button
+                                    className='btn-block'
+                                    type='button'
+                                    disabled={
+                                        product.countInStock > 0 ? false : true
+                                    }
+                                >
+                                    Add To Cart
+                                </Button>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Card>
+                </Col>
             </Row>
         </>
     )
