@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import Rating from '../components/Rating'
 
 function ProductScreen({ match }) {
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({ rating: 0, numReviews: 0 })
 
     useEffect(() => {
         async function fetchProduct() {
