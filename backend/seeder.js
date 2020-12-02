@@ -25,10 +25,10 @@ async function importData() {
         })
         await Product.insertMany(sampleProducts)
 
-        console.log('Data Imported!')
+        console.log('Data Imported!'.green.underline.bold)
         process.exit()
     } catch (error) {
-        console.error($`{error}`)
+        console.error($`{error}`.red.underline.bold)
         process.exit(1)
     }
 }
@@ -39,10 +39,10 @@ async function destroyData() {
         await Product.deleteMany()
         await User.deleteMany()
 
-        console.log('Data Destroyed!')
+        console.log('Data Destroyed!'.green.underline.bold)
         process.exit()
     } catch (error) {
-        console.error($`{error}`)
+        console.error($`{error}`.red.underline.bold)
         process.exit(1)
     }
 }
