@@ -16,6 +16,11 @@ const reviewSchema = new Schema(
             type: Number,
             required: true,
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
+        },
     },
     {
         timestamps: true,
@@ -60,6 +65,11 @@ const productSchema = new Schema(
             default: 0,
         },
         rating: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+        numReviews: {
             type: Number,
             required: true,
             default: 0,
