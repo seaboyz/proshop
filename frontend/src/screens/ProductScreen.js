@@ -21,7 +21,7 @@ function ProductScreen({ history, match }) {
 
     const addToCartHandler = () => {
         // redirect to cartScreen
-        history.push(`/cart/${match.params.id}?qty${qty}`)
+        history.push(`/cart/${match.params.id}?qty=${qty}`)
     }
 
     return (
