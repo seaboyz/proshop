@@ -17,6 +17,7 @@ export function addToCart(id, qty) {
                 qty,
             },
         })
+        // setItem to local storage
         localStorage.setItem(
             'carItems',
             JSON.stringify(getState().cart.cartItems)
