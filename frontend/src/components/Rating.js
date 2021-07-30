@@ -2,28 +2,32 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Rating = ({ rating, numReviews, color }) => {
-  const numberOfFullStars = Math.floor(rating);
-  const numberOfHalfStars = Math.round(rating % 1);
+  if (rating) {
+    const numberOfFullStars = Math.floor(rating);
+    const numberOfHalfStars = Math.round(rating % 1);
 
-  return (
-    <div className="rating">
-      {Array(numberOfFullStars)
-        .fill("")
-        .map((_, index) => (
-          <span key={index}>
-            <i style={{ color }} className="fas fa-star"></i>
-          </span>
-        ))}
-      {Array(numberOfHalfStars)
-        .fill("")
-        .map((_, index) => (
-          <span key={index}>
-            <i style={{ color }} className="fas fa-star-half-alt"></i>
-          </span>
-        ))}
-      {numReviews} reviews
-    </div>
-  );
+    return (
+      <div className="rating">
+        {Array(numberOfFullStars)
+          .fill("")
+          .map((_, index) => (
+            <span key={index}>
+              <i style={{ color }} className="fas fa-star"></i>
+            </span>
+          ))}
+        {Array(numberOfHalfStars)
+          .fill("")
+          .map((_, index) => (
+            <span key={index}>
+              <i style={{ color }} className="fas fa-star-half-alt"></i>
+            </span>
+          ))}
+        {numReviews} reviews
+      </div>
+    );
+  }
+
+  return null;
 };
 
 Rating.defaultProps = {
@@ -31,8 +35,8 @@ Rating.defaultProps = {
 };
 
 Rating.propTypes = {
-  rating: PropTypes.number.isRequired,
-  numReviews: PropTypes.number.isRequired,
+  rating: PropTypes.number,
+  numReviews: PropTypes.number,
   color: PropTypes.string,
 };
 

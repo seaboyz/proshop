@@ -1,12 +1,20 @@
-import React from "react";
-import { Image, Row, Col, ListGroup, Card, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Image, Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 
 const ProductScreen = ({ match }) => {
-  const productId = match.params.id;
-  const product = products.find(product => product._id === productId);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [match.params.id]);
 
   return (
     <>
@@ -25,17 +33,19 @@ const ProductScreen = ({ match }) => {
             <ListGroup.Item>
               <Rating rating={product.rating} numReviews={product.numReviews} />
             </ListGroup.Item>
+            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
-          <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-          <ListGroup.Item>Description: {product.description}</ListGroup.Item>
         </Col>
         <Col md={3}>
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <Row>
-                  <Col>Price</Col>
-                  <Col>{product.price}</Col>
+                  <Col>Price:</Col>
+                  <Col>
+                    <strong>{product.price}</strong>
+                  </Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>
@@ -49,9 +59,9 @@ const ProductScreen = ({ match }) => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                <div class="d-grid gap-2">
+                <div className="d-grid gap-2">
                   <Button
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     type="button"
                     disabled={product.countInStock === 0}
                   >
