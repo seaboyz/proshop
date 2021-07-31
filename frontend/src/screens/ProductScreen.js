@@ -23,7 +23,7 @@ const ProductScreen = ({ match, history }) => {
 
   const { product, loading, error } = productDetails
 
-  // push new entry on the address
+  // use react router history.push push query to url
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
   }
