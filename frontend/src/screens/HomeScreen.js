@@ -1,8 +1,10 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Col, Row } from "react-bootstrap"
-import Product from "../components/Product"
-import { listProducts } from "../actions/productActions"
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Col, Row } from 'react-bootstrap'
+import Product from '../components/Product'
+import { listProducts } from '../actions/productActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -21,9 +23,9 @@ const HomeScreen = () => {
   return (
     <>
       {loading ? (
-        <h1>LORDING...</h1>
+        <Loader />
       ) : error ? (
-        <h1>{error}</h1>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <>
           <h1>Lastest Products</h1>
