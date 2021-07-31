@@ -8,7 +8,7 @@ const reducer = combineReducers({
 })
 
 const initialState = {}
-
+// let action creator listProducts return a function instead of a object
 const middleware = [thunk]
 
 const store = createStore(
