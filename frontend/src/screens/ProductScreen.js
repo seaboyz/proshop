@@ -9,7 +9,7 @@ import Message from '../components/Message'
 
 const ProductScreen = ({ match, history }) => {
   // component state
-  const [qty, setQty] = useState(0)
+  const [qty, setQty] = useState(1)
 
   const dispatch = useDispatch()
 
