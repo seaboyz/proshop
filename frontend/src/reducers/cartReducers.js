@@ -1,21 +1,29 @@
 import { CART_ADD_ITEM } from '../constants/cartConstants'
 
-export const cartReducer = (state = { cartItems: [] }, action) => {
+export const cartReducer = (
+  state = {
+    cartItems: [],
+  },
+  action
+) => {
   switch (action.type) {
     case CART_ADD_ITEM:
-      // item: added from the productScreen local state
-      const item = action.payload
-      // existitem: from the store if match with the item from the  item
-      const existItem = state.cartItems.find(x => x.product === item.product)
+      // new item: from payload
+      const newItem = action.payload
+      // existitem: from store if the id matchs the new item id
+      const existItem =
+        state.cartItems && state.cartItems.find(x => x.id === newItem.id)
       if (existItem) {
         return {
           ...state,
+          // replace the existItem with new item in cartItems array
           cartItems: state.cartItems.map(x =>
-            x.product === existItem.product ? item : x
+            x.id === existItem.id ? newItem : x
           ),
         }
       } else {
-        return { cartItems: [...state, existItem] }
+        // add payload to the cartItems array
+        return { cartItems: [...state.cartItems, newItem] }
       }
     default:
       return state
