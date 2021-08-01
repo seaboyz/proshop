@@ -24,6 +24,7 @@ const ProductScreen = ({ match, history }) => {
   const { product, loading, error } = productDetails
 
   // use react router history.push push query to url
+  // in order to jump to cartScreen
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
   }
