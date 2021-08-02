@@ -12,6 +12,9 @@ connectDB()
 
 const app = express()
 
+// allow json in the request body(req.body)
+app.use(express.json())
+
 app.get('/', (req, res) => {
   res.send('API is running')
 })
