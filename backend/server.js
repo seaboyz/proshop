@@ -13,6 +13,7 @@ connectDB()
 const app = express()
 
 // allow json in the request body(req.body)
+// http://expressjs.com/en/api.html#express.json
 app.use(express.json())
 
 app.get('/', (req, res) => {
