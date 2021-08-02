@@ -4,6 +4,8 @@ import colors from 'colors'
 
 import connectDB from './config/db.js'
 import productsRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -20,8 +22,11 @@ app.get('/', (req, res) => {
   res.send('API is running')
 })
 
-// requests to /api/products will be sent to productsRouter
+// requests to /api/products will be sent to productsRoutes
 app.use('/api/products', productsRoutes)
+
+// requests to /api/users will be sent to userRoutes
+app.use('/api/users', userRoutes)
 
 // https://expressjs.com/en/guide/error-handling.html
 // express error handling
