@@ -49,6 +49,8 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt)
 })
 
+// https://mongoosejs.com/docs/models.html#compiling
+// When you call mongoose.model() on a schema, Mongoose compiles a model for you.
 const User = mongoose.model('User', userSchema)
 
 export default User
