@@ -15,7 +15,7 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
 })
 
-// locastorage
+// get data from locastorage
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : []
@@ -31,7 +31,8 @@ const initialState = {
     userInfo: userInfoFromStorage,
   },
 }
-// let action creator listProducts return a function instead of a object
+
+// thunk: let action creator listProducts return a function instead of a object
 const middleware = [thunk]
 
 const store = createStore(
