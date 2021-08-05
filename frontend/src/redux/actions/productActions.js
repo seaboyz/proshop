@@ -6,10 +6,10 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
-} from '../constants/productConstants'
+} from '../productConstants'
 
 // action creator returns a function instead of object by using thunk
-export const listProducts = () => async dispatch => {
+export const listProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
 
@@ -27,7 +27,7 @@ export const listProducts = () => async dispatch => {
   }
 }
 
-export const listProductDetails = id => async dispatch => {
+export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST })
 

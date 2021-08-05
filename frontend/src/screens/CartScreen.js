@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { addToCart, removeFromCart } from '../actions/cartActions'
+import {
+  addToCart,
+  removeFromCart,
+} from '../redux/constants/actions/cartActions'
 import Message from '../components/Message'
 
 const Cart = ({ match, location, history }) => {
@@ -20,10 +23,10 @@ const Cart = ({ match, location, history }) => {
     }
   }, [dispatch, id, qty])
 
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
 
-  const removeFromCartHandler = id => {
+  const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
 
@@ -55,11 +58,11 @@ const Cart = ({ match, location, history }) => {
                     <Form.Control
                       as='select'
                       value={qty}
-                      onChange={e =>
+                      onChange={(e) =>
                         dispatch(addToCart(id, Number(e.target.value)))
                       }
                     >
-                      {[...Array(countInStock).keys()].map(x => (
+                      {[...Array(countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>

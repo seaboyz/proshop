@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Image, Row, Col, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../components/Rating'
-import { listProductDetails } from '../actions/productActions'
+import { listProductDetails } from '../redux/constants/actions/productActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 
@@ -19,7 +19,7 @@ const ProductScreen = ({ match, history }) => {
     dispatch(listProductDetails(id))
   }, [id, dispatch])
   // state from store
-  const productDetails = useSelector(state => state.productDetails)
+  const productDetails = useSelector((state) => state.productDetails)
 
   const { product, loading, error } = productDetails
 
@@ -92,7 +92,7 @@ const ProductScreen = ({ match, history }) => {
                           <Form.Control
                             as='select'
                             value={qty}
-                            onChange={e => {
+                            onChange={(e) => {
                               setQty(e.target.value)
                             }}
                           >
