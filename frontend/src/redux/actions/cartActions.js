@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../cartConstants'
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
 
 // getState:https://github.com/reduxjs/redux-thunk#motivation
 export const addToCart = (id, qty) => async (dispatch, getState) => {

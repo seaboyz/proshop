@@ -5,7 +5,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { login } from '../redux/constants/actions/userActions'
+import { login } from '../redux/actions/userActions'
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
