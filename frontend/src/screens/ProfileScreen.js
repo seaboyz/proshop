@@ -14,15 +14,22 @@ const ProfileScreen = ({ location, history }) => {
 
   const [message, setMessage] = useState(null)
 
+  // all the state ProfileScreen has is from userDetails instead of userLogin
+  // seperate of concern
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
 
+  // use userInfo to represent the login state
+  // if login go to '/profile'
+  // else go to '/login'
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // if user is not loggin
+    // redirect to /login
     if (!userInfo) {
       history.push('/login')
     } else {
@@ -93,7 +100,11 @@ const ProfileScreen = ({ location, history }) => {
             ></Form.Control>
           </Form.Group>
 
-          <Button type='submit' variant='primary'>
+          <Button
+            type='submit'
+            variant='primary'
+            disabled={!(name && password && email && confirmPassword)}
+          >
             Update
           </Button>
         </Form>
