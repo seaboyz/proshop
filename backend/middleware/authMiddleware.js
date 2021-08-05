@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken'
 import expressAsyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 
+// use token to identify and verify the user
+// decode token to id
 export const protect = expressAsyncHandler(async (req, res, next) => {
   let token
 
@@ -14,9 +16,10 @@ export const protect = expressAsyncHandler(async (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
+      // add dedcoded user id to req object
       req.user = await User.findById(decoded.id).select('-password')
 
-      next()
+      next() /* => getUserProfile or updateUserProfile */
     } catch (error) {
       console.error(error)
       res.status(401)
