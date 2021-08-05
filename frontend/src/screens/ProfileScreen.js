@@ -27,7 +27,7 @@ const ProfileScreen = ({ location, history }) => {
       history.push('/login')
     } else {
       if (!user) {
-        dispatch(getUserDetails('profile'))
+        dispatch(getUserDetails())
       } else {
         setName(user.name)
         setEmail(user.email)
@@ -97,9 +97,6 @@ const ProfileScreen = ({ location, history }) => {
             Update
           </Button>
         </Form>
-      </Col>
-      <Col md={9}>
-        <h2>My Orders</h2>
       </Col>
     </Row>
   )
