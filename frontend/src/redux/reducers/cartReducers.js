@@ -12,12 +12,12 @@ export const cartReducer = (
       const newItem = action.payload
       // existitem: from store if the id matchs the new item id
       const existItem =
-        state.cartItems && state.cartItems.find(x => x.id === newItem.id)
+        state.cartItems && state.cartItems.find((x) => x.id === newItem.id)
       if (existItem) {
         return {
           ...state,
           // replace the existItem with new item in cartItems array
-          cartItems: state.cartItems.map(x =>
+          cartItems: state.cartItems.map((x) =>
             x.id === existItem.id ? newItem : x
           ),
         }
@@ -30,7 +30,7 @@ export const cartReducer = (
       const id = action.payload
       return {
         ...state,
-        cartItems: state.cartItems.filter(item => item.id !== id),
+        cartItems: state.cartItems.filter((item) => item.id !== id),
       }
 
     default:
