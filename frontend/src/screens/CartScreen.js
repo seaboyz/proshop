@@ -30,6 +30,11 @@ const Cart = ({ match, location, history }) => {
   const checkoutHandler = () => {
     history.push(`/login?redirect=shipping`)
   }
+  // equaivalent to :
+  // history.push({
+  // pathname: '/login',
+  // search: '?redirect=shipping'
+  // }
 
   return (
     <Row>

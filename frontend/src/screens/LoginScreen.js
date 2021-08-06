@@ -16,6 +16,8 @@ const LoginScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin) /* redux state */
   const { loading, error, userInfo } = userLogin
 
+  // https://github.com/ReactTraining/history/blob/master/docs/api-reference.md#locationsearch
+  // The location.search property is a string that contains an initial ? followed by the key=value pairs in the query string.
   const redirect = location.search
     ? location.search.split('=')[1]
     : '/' /* react router url */
@@ -25,6 +27,7 @@ const LoginScreen = ({ location, history }) => {
   // every time localstorage changes redirect to the new url
   // check the userInfo to redirect to the redirect url
   useEffect(() => {
+    // userInfo represent isLogin
     if (userInfo) {
       // redirect to redirect url
       history.push(redirect)
