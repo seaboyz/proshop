@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getUserDetails } from '../redux/actions/userActions'
+import { getUserDetails, updateUserProfile } from '../redux/actions/userActions'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
@@ -24,6 +24,9 @@ const ProfileScreen = ({ location, history }) => {
   // else go to '/login'
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+  const { success } = userUpdateProfile
 
   const dispatch = useDispatch()
 
@@ -47,7 +50,7 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Those passwords didn’t match. Try again.')
     } else {
-      // TODO dispatch(updateProfile())
+      dispatch(updateUserProfile({ id: user._id, name, email, password }))
     }
   }
 
@@ -56,6 +59,7 @@ const ProfileScreen = ({ location, history }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
+        {success && <Message variant='success'>Profile Updated</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         {/* {success && <Message variant='success'>Profile Updated</Message>} */}
         {loading && <Loader />}
