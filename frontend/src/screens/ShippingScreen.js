@@ -79,6 +79,7 @@ const ShippingScreen = ({ history }) => {
         </Form.Group>
 
         <Button
+          className='mt-3'
           type='submit'
           variant='primary'
           disabled={!(street || zipCode || city || country)}
