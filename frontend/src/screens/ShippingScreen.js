@@ -13,16 +13,16 @@ const ShippingScreen = ({ history }) => {
   const { shippingAddress } = cart
 
   // preload local state with state from redux store
-  const [street, setStreet] = useState(shippingAddress.street)
+  const [address, setaddress] = useState(shippingAddress.address)
   const [city, setCity] = useState(shippingAddress.city)
-  const [zipCode, setZipCode] = useState(shippingAddress.zipCode)
+  const [postalCode, setZipCode] = useState(shippingAddress.postalCode)
   const [country, setCountry] = useState(shippingAddress.country)
 
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(saveShippingAdrees({ street, city, zipCode, country }))
+    dispatch(saveShippingAdrees({ address, city, postalCode, country }))
     history.push('/payment')
   }
 
@@ -34,13 +34,13 @@ const ShippingScreen = ({ history }) => {
       <h1>Shipping</h1>
 
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='street'>
-          <Form.Label>street</Form.Label>
+        <Form.Group controlId='address'>
+          <Form.Label>address</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter street'
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
+            placeholder='Enter address'
+            value={address}
+            onChange={(e) => setaddress(e.target.value)}
             required
           />
         </Form.Group>
@@ -56,12 +56,12 @@ const ShippingScreen = ({ history }) => {
           />
         </Form.Group>
 
-        <Form.Group controlId='zipCode'>
-          <Form.Label>zipCode</Form.Label>
+        <Form.Group controlId='postalCode'>
+          <Form.Label>postalCode</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Enter zipCode'
-            value={zipCode}
+            placeholder='Enter postalCode'
+            value={postalCode}
             onChange={(e) => setZipCode(e.target.value)}
             required
           />
@@ -82,7 +82,7 @@ const ShippingScreen = ({ history }) => {
           className='mt-3'
           type='submit'
           variant='primary'
-          disabled={!(street || zipCode || city || country)}
+          disabled={!(address || postalCode || city || country)}
         >
           Next
         </Button>
