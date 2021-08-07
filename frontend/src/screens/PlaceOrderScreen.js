@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Row, Col, ListGroup, Image, Form, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CheckOutSteps from '../components/CheckOutSteps'
-import Message from '../components/Message'
 import { removeFromCart, addToCart } from '../redux/actions/cartActions'
+import { createOrder } from '../redux/actions/orderActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart)
+
   const {
-    shippingAddress: { street, city, zipCode, country },
+    shippingAddress: { address, city, postalCode, country },
     cartItems,
     paymentMethod,
   } = cart
@@ -19,8 +22,6 @@ const PlaceOrderScreen = () => {
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
-
-  const PlaceOrderHandler = () => {}
 
   const itemsQty = cartItems.reduce((acc, item) => acc + item.qty, 0)
 
@@ -37,15 +38,40 @@ const PlaceOrderScreen = () => {
 
   const totalPrice = totalBeforeTax + itemsTax
 
+  const orderCreate = useSelector((state) => state.orderCreate)
+  const { order, loading, success, error } = orderCreate
+
+  useEffect(() => {
+    if (success) {
+      history.push(`order/${order._id}`)
+    }
+  }, [history, success, order])
+
+  const PlaceOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: itemsPrice,
+        taxPrice: itemsTax,
+        shippingPrice: shippingPrice,
+        totalPrice: totalPrice,
+      })
+    )
+  }
+
   return (
     <>
+      {loading && <Loader />}
+      {error && <Message variant='danger'>{error}</Message>}
       <CheckOutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <strong>Shipping:</strong>
-              <p>{`Address: ${street}, ${city} ${zipCode}, ${country}`}</p>
+              <p>{`Address: ${address}, ${city} ${postalCode}, ${country}`}</p>
             </ListGroup.Item>
 
             <ListGroup.Item>
