@@ -5,6 +5,7 @@ import colors from 'colors'
 import connectDB from './config/db.js'
 import productsRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 
@@ -27,6 +28,9 @@ app.use('/api/products', productsRoutes)
 
 // requests to /api/users will be sent to userRoutes
 app.use('/api/users', userRoutes)
+
+// request to /api/orders will be sent to orderRoutes
+app.use('/api/orders', orderRoutes)
 
 // https://expressjs.com/en/guide/error-handling.html
 // express error handling
