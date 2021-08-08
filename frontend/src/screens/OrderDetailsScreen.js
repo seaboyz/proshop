@@ -126,24 +126,24 @@ const OrderDetailsScreen = ({ match }) => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Shipping</Col>
-                      <Col>${order.shippingPrice}</Col>
+                      <Col>${Number(order.shippingPrice).toFixed(2)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Tax</Col>
-                      <Col>${order.taxPrice}</Col>
+                      <Col>${Number(order.taxPrice).toFixed(2)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Order total:</Col>
-                      <Col>${order.totalPrice}</Col>
+                      <Col>${Number(order.totalPrice).toFixed(2)}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <PayPalButton
-                      amount={0.01} //TODO
+                      amount={Number(order.totalPrice).toFixed(2)}
                       onSuccess={paymentSuccessHandler}
                       options={{ clientId: clientId }}
                     />
