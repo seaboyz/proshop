@@ -6,6 +6,8 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { getOrderDetails } from '../redux/actions/orderActions'
 
+import { PayPalButton } from 'react-paypal-button-v2'
+
 const OrderDetailsScreen = ({ match }) => {
   const dispatch = useDispatch()
 
@@ -20,6 +22,12 @@ const OrderDetailsScreen = ({ match }) => {
       dispatch(getOrderDetails(orderId))
     }
   }, [dispatch, orderId, order])
+
+  const paymentSuccessHandler = () => {
+    // TODO
+  }
+
+  const clientId = ''
 
   return (
     <div>
@@ -132,6 +140,13 @@ const OrderDetailsScreen = ({ match }) => {
                       <Col>Order total:</Col>
                       <Col>${order.totalPrice}</Col>
                     </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <PayPalButton
+                      amount={0.01} //TODO
+                      onSuccess={paymentSuccessHandler}
+                      options={{ clientId: clientId }}
+                    />
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
