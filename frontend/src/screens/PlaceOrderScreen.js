@@ -50,7 +50,7 @@ const PlaceOrderScreen = ({ history }) => {
       dispatch(clearCartItems())
       history.push(`order/${order._id}`)
     }
-  }, [history, success, order])
+  }, [history, success, order, dispatch])
 
   const PlaceOrderHandler = () => {
     dispatch(
