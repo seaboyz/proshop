@@ -12,7 +12,10 @@ import {
   userRegisterReducer,
   userUpdateProfileReducer,
 } from './reducers/userReducers'
-import { orderCreatReducer } from './reducers/orderReducers'
+import {
+  orderCreatReducer,
+  orderDetailsReducer,
+} from './reducers/orderReducers'
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -23,6 +26,7 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   orderCreate: orderCreatReducer,
+  orderDetails: orderDetailsReducer,
 })
 
 // get data from locastorage
