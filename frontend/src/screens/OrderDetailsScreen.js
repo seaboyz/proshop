@@ -11,13 +11,15 @@ const OrderDetailsScreen = ({ match }) => {
 
   const orderId = match.params.id
 
-  useEffect(() => {
-    dispatch(getOrderDetails(orderId))
-  }, [dispatch, orderId])
-
   const orderDetails = useSelector((state) => state.orderDetails)
 
   const { loading, success, error, order } = orderDetails
+
+  useEffect(() => {
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetails(orderId))
+    }
+  }, [dispatch, orderId, order])
 
   return (
     <div>
