@@ -30,7 +30,7 @@ export const cartReducer = (
         }
       } else {
         // add payload to the cartItems array
-        return { cartItems: [...state.cartItems, newItem] }
+        return { ...state, cartItems: [...state.cartItems, newItem] }
       }
 
     case CART_REMOVE_ITEM:
