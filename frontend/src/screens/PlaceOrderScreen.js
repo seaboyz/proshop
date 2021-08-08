@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Row, Col, ListGroup, Image, Form, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CheckOutSteps from '../components/CheckOutSteps'
-import { removeFromCart, addToCart } from '../redux/actions/cartActions'
+import {
+  removeFromCart,
+  addToCart,
+  clearCartItems,
+} from '../redux/actions/cartActions'
 import { createOrder } from '../redux/actions/orderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -43,6 +47,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (success) {
+      dispatch(clearCartItems())
       history.push(`order/${order._id}`)
     }
   }, [history, success, order])
