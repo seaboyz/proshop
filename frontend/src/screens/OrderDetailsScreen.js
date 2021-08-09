@@ -7,6 +7,7 @@ import Message from '../components/Message'
 import { getOrderDetails } from '../redux/actions/orderActions'
 
 import { PayPalButton } from 'react-paypal-button-v2'
+import axios from 'axios'
 
 const OrderDetailsScreen = ({ match }) => {
   const dispatch = useDispatch()
@@ -18,10 +19,25 @@ const OrderDetailsScreen = ({ match }) => {
   const { loading, success, error, order } = orderDetails
 
   useEffect(() => {
-    if (!order || order._id !== orderId) {
+    if (!order) {
       dispatch(getOrderDetails(orderId))
     }
+    if (!window.paypal) {
+      loadPaypalSDK()
+    }
   }, [dispatch, orderId, order])
+
+  const loadPaypalSDK = async () => {
+    const { data: clientId } = await axios.get('/api/config/paypal')
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+    script.async = true
+    // script.onload = () => {
+    //   setSdkReady(true)
+    // }
+    document.body.appendChild(script)
+  }
 
   return (
     <div>
