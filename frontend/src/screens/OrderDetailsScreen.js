@@ -23,12 +23,6 @@ const OrderDetailsScreen = ({ match }) => {
     }
   }, [dispatch, orderId, order])
 
-  const paymentSuccessHandler = () => {
-    // TODO
-  }
-
-  const clientId = ''
-
   return (
     <div>
       <h2>Order {match.params.id}</h2>
@@ -142,11 +136,7 @@ const OrderDetailsScreen = ({ match }) => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <PayPalButton
-                      amount={Number(order.totalPrice).toFixed(2)}
-                      onSuccess={paymentSuccessHandler}
-                      options={{ clientId: clientId }}
-                    />
+                    <PayPalButton />
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
