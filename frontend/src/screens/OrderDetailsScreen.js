@@ -40,6 +40,10 @@ const OrderDetailsScreen = ({ match }) => {
     document.body.appendChild(script)
   }
 
+  const successPaymentHandler = () => {
+    alert('Payment Success')
+  }
+
   return (
     <div>
       <h2>Order {match.params.id}</h2>
@@ -156,6 +160,7 @@ const OrderDetailsScreen = ({ match }) => {
                     {sdkReady ? (
                       <PayPalButton
                         amount={Number(order.totalPrice).toFixed(2)}
+                        onSuccess={successPaymentHandler}
                       />
                     ) : (
                       <Loader />
