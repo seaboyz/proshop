@@ -153,7 +153,13 @@ const OrderDetailsScreen = ({ match }) => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    {sdkReady ? <PayPalButton /> : <Loader />}
+                    {sdkReady ? (
+                      <PayPalButton
+                        amount={Number(order.totalPrice).toFixed(2)}
+                      />
+                    ) : (
+                      <Loader />
+                    )}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
