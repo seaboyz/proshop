@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -15,8 +15,9 @@ const OrderDetailsScreen = ({ match }) => {
   const orderId = match.params.id
 
   const orderDetails = useSelector((state) => state.orderDetails)
-
   const { loading, success, error, order } = orderDetails
+
+  const [sdkReady, setSdkReady] = useState(false)
 
   useEffect(() => {
     if (!order) {
@@ -33,9 +34,9 @@ const OrderDetailsScreen = ({ match }) => {
     script.type = 'text/javascript'
     script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
     script.async = true
-    // script.onload = () => {
-    //   setSdkReady(true)
-    // }
+    script.onload = () => {
+      setSdkReady(true)
+    }
     document.body.appendChild(script)
   }
 
@@ -152,7 +153,7 @@ const OrderDetailsScreen = ({ match }) => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <PayPalButton />
+                    {sdkReady ? <PayPalButton /> : <Loader />}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
