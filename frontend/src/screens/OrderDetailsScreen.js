@@ -28,7 +28,11 @@ const OrderDetailsScreen = ({ match }) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { loading, error, order } = orderDetails
   // after the first render, fetch order data to store
-  // after leave the page, clear up order data in store
+  // if match.params.id dont change, it will never fetch again
+  // if match.params.id changed, first the clear up will run
+  // then do a fetch, update the redux store
+  // if leaving the screen,the OrderDetialsScreen is removed,
+  // clean up function will run before leaving the screen
   useEffect(() => {
     dispatch(getOrderDetails(match.params.id))
 
