@@ -23,6 +23,13 @@ app.get('/', (req, res) => {
   res.send('API is running')
 })
 
+// @desc  Get PAYPAL_CLIENT_ID
+// @route GET /api/config/paypal
+// @access Public
+app.get('/api/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+)
+
 // requests to /api/products will be sent to productsRoutes
 app.use('/api/products', productsRoutes)
 

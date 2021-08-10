@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Row, Col, ListGroup, Image, Form, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CheckOutSteps from '../components/CheckOutSteps'
-import {
-  removeFromCart,
-  addToCart,
-  clearCartItems,
-} from '../redux/actions/cartActions'
+import { removeFromCart, addToCart } from '../redux/actions/cartActions'
 import { createOrder } from '../redux/actions/orderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { CART_CLEAR_ITEMS } from '../redux/constants/cartConstants'
+import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants'
 
 const PlaceOrderScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart)
@@ -22,10 +20,6 @@ const PlaceOrderScreen = ({ history }) => {
   } = cart
 
   const dispatch = useDispatch()
-
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
-  }
 
   const itemsQty = cartItems.reduce((acc, item) => acc + item.qty, 0)
 
@@ -45,12 +39,17 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, loading, success, error } = orderCreate
 
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id))
+  }
+
   useEffect(() => {
     if (success) {
-      dispatch(clearCartItems())
+      dispatch({ type: CART_CLEAR_ITEMS })
+      dispatch({ type: ORDER_CREATE_RESET })
       history.push(`order/${order._id}`)
     }
-  }, [history, success, order])
+  }, [history, success, order, dispatch])
 
   const PlaceOrderHandler = () => {
     dispatch(
