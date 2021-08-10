@@ -9,7 +9,7 @@
 //// 8.postman test
 // 9. implementation in OrderScreen
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -18,49 +18,40 @@ import Message from '../components/Message'
 import { getOrderDetails, payOrder } from '../redux/actions/orderActions'
 
 import { PayPalButton } from 'react-paypal-button-v2'
-import axios from 'axios'
-import { ORDER_PAY_RESET } from '../redux/constants/orderConstants'
+import { ORDER_DETAILS_RESET } from '../redux/constants/orderConstants'
+import usePaypalSDK from '../hooks/usePaypal'
 
 const OrderDetailsScreen = ({ match }) => {
-  const orderId = match.params.id
-
-  const [sdkReady, setSdkReady] = useState(false)
-
-  const orderDetails = useSelector((state) => state.orderDetails)
-  const { loading, error, order } = orderDetails
-
-  const orderPay = useSelector((state) => state.orderPay)
-  const { loading: payment, success: paymentSuccess } = orderPay
+  const PaypalIsReady = usePaypalSDK()
 
   const dispatch = useDispatch()
-
-  // useEffect is first called after the first render
-  // then every time the dependencies changes, it is called again
+  const orderDetails = useSelector((state) => state.orderDetails)
+  const { loading, error, order } = orderDetails
+  // after the first render, fetch order data to store
+  // if match.params.id dont change, it will never fetch again
+  // if match.params.id changed, first the clear up will run
+  // then do a fetch, update the redux store
+  // if leaving the screen,the OrderDetialsScreen is removed,
+  // clean up function will run before leaving the screen
   useEffect(() => {
-    if (!order || paymentSuccess) {
-      dispatch({ type: ORDER_PAY_RESET })
-      dispatch(getOrderDetails(orderId))
-    } else if (!order.isPaid) {
-      loadPaypalSDK()
-    } else {
-      setSdkReady(true)
-    }
-  }, [dispatch, orderId, order, paymentSuccess])
+    dispatch(getOrderDetails(match.params.id))
 
-  const loadPaypalSDK = async () => {
-    const { data: clientId } = await axios.get('/api/config/paypal')
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-    script.async = true
-    script.onload = () => {
-      setSdkReady(true)
+    return () => {
+      dispatch({ type: ORDER_DETAILS_RESET })
     }
-    document.body.appendChild(script)
-  }
+  }, [match.params.id, dispatch])
+
+  // ater payment success, fetch order data from server
+  const orderPay = useSelector((state) => state.orderPay)
+  const { loading: paymentLoading, success: paymentSuccess } = orderPay
+  useEffect(() => {
+    if (paymentSuccess) {
+      dispatch(getOrderDetails(match.params.id))
+    }
+  }, [paymentSuccess, match.params.id, dispatch])
 
   const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(orderId, paymentResult))
+    dispatch(payOrder(order.id, paymentResult))
   }
 
   // when the page first load,load the loader first;
@@ -175,8 +166,8 @@ const OrderDetailsScreen = ({ match }) => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {payment && <Loader />}
-                  {sdkReady ? (
+                  {paymentLoading && <Loader />}
+                  {PaypalIsReady ? (
                     <PayPalButton
                       amount={Number(order.totalPrice).toFixed(2)}
                       onSuccess={successPaymentHandler}
