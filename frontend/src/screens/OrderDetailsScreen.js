@@ -45,13 +45,11 @@ const OrderDetailsScreen = ({ match }) => {
   const orderPay = useSelector((state) => state.orderPay)
   const { loading: paymentLoading, success: paymentSuccess } = orderPay
   useEffect(() => {
-    if (paymentSuccess) {
-      dispatch(getOrderDetails(match.params.id))
-    }
+    dispatch(getOrderDetails(match.params.id))
   }, [paymentSuccess, match.params.id, dispatch])
 
   const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(order.id, paymentResult))
+    dispatch(payOrder(order._id, paymentResult))
   }
 
   // when the page first load,load the loader first;
@@ -64,7 +62,7 @@ const OrderDetailsScreen = ({ match }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
-      <h2>Order {order.id}</h2>
+      <h2>Order {order._id}</h2>
       <Row>
         <Col md={8}>
           <ListGroup>
