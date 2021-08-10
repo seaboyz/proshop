@@ -19,48 +19,54 @@ import { getOrderDetails, payOrder } from '../redux/actions/orderActions'
 
 import { PayPalButton } from 'react-paypal-button-v2'
 import axios from 'axios'
-import { ORDER_PAY_RESET } from '../redux/constants/orderConstants'
+import { ORDER_DETAILS_RESET } from '../redux/constants/orderConstants'
 
 const OrderDetailsScreen = ({ match }) => {
-  const orderId = match.params.id
-
+  // load paypal sdk after first render
   const [sdkReady, setSdkReady] = useState(false)
-
-  const orderDetails = useSelector((state) => state.orderDetails)
-  const { loading, error, order } = orderDetails
-
-  const orderPay = useSelector((state) => state.orderPay)
-  const { loading: payment, success: paymentSuccess } = orderPay
-
-  const dispatch = useDispatch()
-
-  // useEffect is first called after the first render
-  // then every time the dependencies changes, it is called again
   useEffect(() => {
-    if (!order || paymentSuccess) {
-      dispatch({ type: ORDER_PAY_RESET })
-      dispatch(getOrderDetails(orderId))
-    } else if (!order.isPaid) {
+    if (!window.paypal) {
+      const loadPaypalSDK = async () => {
+        const { data: clientId } = await axios.get('/api/config/paypal')
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+        script.async = true
+        script.onload = () => {
+          setSdkReady(true)
+        }
+        document.body.appendChild(script)
+      }
       loadPaypalSDK()
     } else {
       setSdkReady(true)
     }
-  }, [dispatch, orderId, order, paymentSuccess])
+  }, [])
 
-  const loadPaypalSDK = async () => {
-    const { data: clientId } = await axios.get('/api/config/paypal')
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-    script.async = true
-    script.onload = () => {
-      setSdkReady(true)
+  const dispatch = useDispatch()
+  const orderDetails = useSelector((state) => state.orderDetails)
+  const { loading, error, order } = orderDetails
+  // after the first render, fetch order data to store
+  // after leave the page, clear up order data in store
+  useEffect(() => {
+    dispatch(getOrderDetails(match.params.id))
+
+    return () => {
+      dispatch({ type: ORDER_DETAILS_RESET })
     }
-    document.body.appendChild(script)
-  }
+  }, [match.params.id, dispatch])
+
+  // ater payment success, fetch order data from server
+  const orderPay = useSelector((state) => state.orderPay)
+  const { loading: paymentLoading, success: paymentSuccess } = orderPay
+  useEffect(() => {
+    if (paymentSuccess) {
+      dispatch(getOrderDetails(match.params.id))
+    }
+  }, [paymentSuccess, match.params.id, dispatch])
 
   const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(orderId, paymentResult))
+    dispatch(payOrder(order.id, paymentResult))
   }
 
   // when the page first load,load the loader first;
@@ -175,7 +181,7 @@ const OrderDetailsScreen = ({ match }) => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {payment && <Loader />}
+                  {paymentLoading && <Loader />}
                   {sdkReady ? (
                     <PayPalButton
                       amount={Number(order.totalPrice).toFixed(2)}
