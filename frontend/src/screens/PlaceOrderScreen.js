@@ -11,6 +11,8 @@ import {
 import { createOrder } from '../redux/actions/orderActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { CART_CLEAR_ITEMS } from '../redux/constants/cartConstants'
+import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants'
 
 const PlaceOrderScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart)
@@ -47,7 +49,8 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (success) {
-      dispatch(clearCartItems())
+      dispatch({ type: CART_CLEAR_ITEMS })
+      dispatch({ type: ORDER_CREATE_RESET })
       history.push(`order/${order._id}`)
     }
   }, [history, success, order, dispatch])
