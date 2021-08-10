@@ -62,6 +62,7 @@ export const orderDetailsReducer = (
     case ORDER_DETAILS_RESET:
       return {
         ...state,
+        loading: true,
         order: {},
       }
     default:

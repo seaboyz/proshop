@@ -9,7 +9,7 @@
 //// 8.postman test
 // 9. implementation in OrderScreen
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -18,30 +18,11 @@ import Message from '../components/Message'
 import { getOrderDetails, payOrder } from '../redux/actions/orderActions'
 
 import { PayPalButton } from 'react-paypal-button-v2'
-import axios from 'axios'
 import { ORDER_DETAILS_RESET } from '../redux/constants/orderConstants'
+import usePaypalSDK from '../hooks/usePaypal'
 
 const OrderDetailsScreen = ({ match }) => {
-  // load paypal sdk after first render
-  const [sdkReady, setSdkReady] = useState(false)
-  useEffect(() => {
-    if (!window.paypal) {
-      const loadPaypalSDK = async () => {
-        const { data: clientId } = await axios.get('/api/config/paypal')
-        const script = document.createElement('script')
-        script.type = 'text/javascript'
-        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-        script.async = true
-        script.onload = () => {
-          setSdkReady(true)
-        }
-        document.body.appendChild(script)
-      }
-      loadPaypalSDK()
-    } else {
-      setSdkReady(true)
-    }
-  }, [])
+  const PaypalIsReady = usePaypalSDK()
 
   const dispatch = useDispatch()
   const orderDetails = useSelector((state) => state.orderDetails)
@@ -182,7 +163,7 @@ const OrderDetailsScreen = ({ match }) => {
               {!order.isPaid && (
                 <ListGroup.Item>
                   {paymentLoading && <Loader />}
-                  {sdkReady ? (
+                  {PaypalIsReady ? (
                     <PayPalButton
                       amount={Number(order.totalPrice).toFixed(2)}
                       onSuccess={successPaymentHandler}
